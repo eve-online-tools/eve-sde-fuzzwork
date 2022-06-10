@@ -54,10 +54,6 @@ spec:
   }
     
   environment {
-    IMAGE = readMavenPom().getArtifactId()
-    VERSION = readMavenPom().getVersion()
-    BUILD_RELEASE_VERSION = readMavenPom().getVersion().replace("-SNAPSHOT", "")
-    IS_SNAPSHOT = readMavenPom().getVersion().endsWith("-SNAPSHOT")
     TARGET_REGISTRY = "ghcr.io/eve-online-tools"
   }
 
