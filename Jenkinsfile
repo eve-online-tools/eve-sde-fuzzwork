@@ -61,8 +61,7 @@ spec:
     stage('create & push docker-image') {
         steps {        
           container('kaniko') {
-              sh 'export BUILD_DATE=$(date +%Y%m%d)'
-              sh "/kaniko/executor --dockerfile `pwd`/Dockerfile --context `pwd` --destination $TARGET_REGISTRY/eve-mariadb-sde:$BUILD_DATE --cleanup"
+              sh "/kaniko/executor --dockerfile `pwd`/Dockerfile --context `pwd` --destination $TARGET_REGISTRY/eve-mariadb-sde:$(date +%Y%m%d) --cleanup"
           }
         }
       }
