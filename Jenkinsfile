@@ -71,8 +71,7 @@ spec:
     stage('create & push docker-image') {
         steps {        
           container('dind') {
-              sh "docker buildx build --platform linux/amd64,linux/arm64/v8 --no-cache -t ghcr.io/rowa78/eve-online-tool-suite/eve-sde-mariadb:`date +%Y%m%d` --push ."
-"
+              sh "docker buildx build --platform linux/amd64,linux/arm64/v8 -f `pwd`/Dockerfile -t $TARGET_REGISTRY/eve-mariadb-sde:`date +%Y%m%d` --push `pwd`"
           }
         }
       }
