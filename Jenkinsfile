@@ -20,7 +20,7 @@ spec:
     - cat
     tty: true
   - name: dind
-    image: ghcr.io/eve-online-tools/dind-buildx:0.2
+    image: ghcr.io/eve-online-tools/dind-buildx:0.3
     securityContext:
       privileged: true
     tty: true
