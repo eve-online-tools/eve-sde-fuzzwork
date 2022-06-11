@@ -20,13 +20,10 @@ spec:
     - cat
     tty: true
   - name: docker
-    image: docker:latest
+    image: docker:19.03.1-dind
     command:
       - cat
     tty: true
-    volumeMounts:
-    - mountPath: /var/run/docker.sock
-      name: docker-sock
   - name: kaniko
     image: gcr.io/kaniko-project/executor:debug
     imagePullPolicy: IfNotPresent
@@ -40,9 +37,6 @@ spec:
       - name: jenkins-docker-cfg
         mountPath: /kaniko/.docker
   volumes:
-    - name: docker-sock
-      hostPath:
-        path: /var/run/docker.sock
     - name: m2
       persistentVolumeClaim:
         claimName: cache
