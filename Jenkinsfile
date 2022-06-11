@@ -20,7 +20,7 @@ spec:
     - cat
     tty: true
   - name: dind
-    image: docker:20.10.12-dind-rootless
+    image: ghcr.io/eve-online-tools/dind-buildx:0.1
     securityContext:
       privileged: true
     tty: true
