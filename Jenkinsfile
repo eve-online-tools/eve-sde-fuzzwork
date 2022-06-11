@@ -72,7 +72,7 @@ spec:
     stage('create & push docker-image') {
         steps {        
           container('docker') {
-              sh "docker build -f `pwd`/Dockerfile -t $TARGET_REGISTRY/eve-mariadb-sde:`date +%Y%m%d`"
+              sh "docker build -f `pwd`/Dockerfile -t $TARGET_REGISTRY/eve-mariadb-sde:`date +%Y%m%d` `pwd`"
           }
         }
       }
