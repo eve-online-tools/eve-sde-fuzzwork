@@ -22,11 +22,11 @@ spec:
   - name: docker
     image: docker:latest
     command:
-    - cat
+      - cat
     tty: true
     volumeMounts:
     - mountPath: /var/run/docker.sock
-    name: docker-sock
+      name: docker-sock
   - name: kaniko
     image: gcr.io/kaniko-project/executor:debug
     imagePullPolicy: IfNotPresent
