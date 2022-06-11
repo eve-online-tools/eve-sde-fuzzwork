@@ -19,6 +19,14 @@ spec:
     command:
     - cat
     tty: true
+  - name: docker
+    image: docker:latest
+    command:
+    - cat
+    tty: true
+    volumeMounts:
+    - mountPath: /var/run/docker.sock
+    name: docker-sock
   - name: kaniko
     image: gcr.io/kaniko-project/executor:debug
     imagePullPolicy: IfNotPresent
@@ -32,6 +40,9 @@ spec:
       - name: jenkins-docker-cfg
         mountPath: /kaniko/.docker
   volumes:
+    - name: docker-sock
+      hostPath:
+        path: /var/run/docker.sock
     - name: m2
       persistentVolumeClaim:
         claimName: cache
@@ -60,8 +71,8 @@ spec:
   stages {
     stage('create & push docker-image') {
         steps {        
-          container('kaniko') {
-              sh "/kaniko/executor --dockerfile `pwd`/Dockerfile --context `pwd` --destination $TARGET_REGISTRY/eve-mariadb-sde:`date +%Y%m%d` --cleanup"
+          container('docker') {
+              sh "docker build -f `pwd`/Dockerfile -t $TARGET_REGISTRY/eve-mariadb-sde:`date +%Y%m%d`"
           }
         }
       }
