@@ -19,13 +19,16 @@ spec:
     command:
     - cat
     tty: true
-  - name: docker
-    image: docker:19.03.1-dind
+  - name: dind
+    image: docker:20.10.12-dind-rootless
     securityContext:
       privileged: true
-    command:
-      - cat
     tty: true
+    readinessProbe:
+      exec:
+        command: ["docker", "info"]
+      initialDelaySeconds: 10
+      failureThreshold: 6
   - name: kaniko
     image: gcr.io/kaniko-project/executor:debug
     imagePullPolicy: IfNotPresent
@@ -67,7 +70,7 @@ spec:
   stages {
     stage('create & push docker-image') {
         steps {        
-          container('docker') {
+          container('dind') {
               sh "docker build -f `pwd`/Dockerfile -t $TARGET_REGISTRY/eve-mariadb-sde:`date +%Y%m%d` `pwd`"
           }
         }
