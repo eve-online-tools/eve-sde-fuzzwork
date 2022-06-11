@@ -31,7 +31,8 @@ spec:
       failureThreshold: 6
     volumeMounts:
       - name: jenkins-docker-cfg
-        mountPath: /root/.docker
+        mountPath: /root/.docker/config.json
+        subPath: config.json
   - name: kaniko
     image: gcr.io/kaniko-project/executor:debug
     imagePullPolicy: IfNotPresent
