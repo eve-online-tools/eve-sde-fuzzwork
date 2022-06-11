@@ -20,7 +20,7 @@ spec:
     - cat
     tty: true
   - name: dind
-    image: ghcr.io/eve-online-tools/dind-buildx:0.1
+    image: ghcr.io/eve-online-tools/dind-buildx:0.2
     securityContext:
       privileged: true
     tty: true
@@ -71,7 +71,8 @@ spec:
     stage('create & push docker-image') {
         steps {        
           container('dind') {
-              sh "docker build -f `pwd`/Dockerfile -t $TARGET_REGISTRY/eve-mariadb-sde:`date +%Y%m%d` `pwd`"
+              sh "docker buildx build --platform linux/amd64,linux/arm64/v8 --no-cache -t ghcr.io/rowa78/eve-online-tool-suite/eve-sde-mariadb:`date +%Y%m%d` --push .
+"
           }
         }
       }
