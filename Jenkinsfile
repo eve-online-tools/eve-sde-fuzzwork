@@ -21,6 +21,7 @@ spec:
     tty: true
   - name: dind
     image: ghcr.io/eve-online-tools/dind-buildx:0.3
+    imagePullPolicy: IfNotPresent
     securityContext:
       privileged: true
     tty: true
@@ -74,8 +75,8 @@ spec:
   stages {
     stage('extract version') {
       steps {
-        container('tools') {
-            sh "curl https://www.fuzzwork.co.uk/dump/mysql-latest.tar.bz2 -o mysql.tar.bz2"
+        container('dind') {
+            sh "wget https://www.fuzzwork.co.uk/dump/mysql-latest.tar.bz2 -O mysql.tar.bz2"
             sh "export VERSION=\$(tar tfj mysql.tar.bz2 | sed 's/sde-//g' | sed 's/-.*//g')"
         }
       }
