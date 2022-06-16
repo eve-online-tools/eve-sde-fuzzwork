@@ -78,6 +78,7 @@ spec:
         container('dind') {
             sh "wget https://www.fuzzwork.co.uk/dump/mysql-latest.tar.bz2 -O mysql.tar.bz2"
             sh "export VERSION=\$(tar tfj mysql.tar.bz2 | sed 's/sde-//g' | sed 's/-.*//g')"
+            sh 'echo \$VERSION > version.txt'
         }
       }
     }
@@ -86,6 +87,7 @@ spec:
         steps {        
           container('dind') {
               sh "docker buildx create --use"
+              sh "export VERSION=\$(cat version.txt)"
               sh "docker buildx build --platform linux/amd64,linux/arm64/v8 -f `pwd`/Dockerfile -t $TARGET_REGISTRY/eve-mariadb-sde:${VERSION} --push `pwd`"
           }
         }
