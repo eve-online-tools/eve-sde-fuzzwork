@@ -4,7 +4,7 @@ ADD mysql.tar.bz2 /tmp/
 # i saw this as the CMD for the postgres image
 # also tried running /usr/local/bin/docker-entrypoint.sh
 
-RUN tar xfvj mysql.tar.bz2 && \
+RUN tar xfvj /tmp/mysql.tar.bz2 && \
     cp sde*/*.sql /tmp/sde.sql
 
 
