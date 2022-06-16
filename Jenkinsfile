@@ -72,11 +72,20 @@ spec:
   }
 
   stages {
+    stage('extract version') {
+      steps {
+        container('dind') {
+            sh "curl https://www.fuzzwork.co.uk/dump/mysql-latest.tar.bz2 -o mysql.tar.bz2"
+            sh "export VERSION=$(tar tfj /tmp/mysql.tar.bz2 | sed 's/sde-//g' | sed 's/-.*//g')"
+        }
+      }
+    }
+
     stage('create & push docker-image') {
         steps {        
           container('dind') {
               sh "docker buildx create --use"
-              sh "docker buildx build --platform linux/amd64,linux/arm64/v8 -f `pwd`/Dockerfile -t $TARGET_REGISTRY/eve-mariadb-sde:`date +%Y%m%d` --push `pwd`"
+              sh "docker buildx build --platform linux/amd64,linux/arm64/v8 -f `pwd`/Dockerfile -t $TARGET_REGISTRY/eve-mariadb-sde:${VERSION} --push `pwd`"
           }
         }
       }
