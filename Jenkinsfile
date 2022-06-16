@@ -76,7 +76,7 @@ spec:
       steps {
         container('tools') {
             sh "curl https://www.fuzzwork.co.uk/dump/mysql-latest.tar.bz2 -o mysql.tar.bz2"
-            sh "export VERSION=\$(tar tfj /tmp/mysql.tar.bz2 | sed 's/sde-//g' | sed 's/-.*//g')"
+            sh "export VERSION=\$(tar tfj mysql.tar.bz2 | sed 's/sde-//g' | sed 's/-.*//g')"
         }
       }
     }
