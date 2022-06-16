@@ -64,8 +64,7 @@ spec:
         steps {        
           container('dind') {
               sh "docker buildx create --use"
-              sh "export VERSION=\$(cat version.txt)"
-              sh "docker buildx build --platform linux/amd64,linux/arm64/v8 -f `pwd`/Dockerfile -t $TARGET_REGISTRY/eve-mariadb-sde:${VERSION} --push `pwd`"
+              sh "docker buildx build --platform linux/amd64,linux/arm64/v8 -f `pwd`/Dockerfile -t $TARGET_REGISTRY/eve-mariadb-sde:`cat version.txt` --push `pwd`"
           }
         }
       }
