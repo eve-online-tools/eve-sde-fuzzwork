@@ -49,6 +49,7 @@ spec:
     
   environment {
     TARGET_REGISTRY = "ghcr.io/eve-online-tools"
+    NAMESPACE = "eve-dev"
   }
 
   stages {
@@ -68,6 +69,16 @@ spec:
               sh "docker buildx build --platform linux/amd64,linux/arm64/v8 -f `pwd`/Dockerfile -t $TARGET_REGISTRY/eve-mariadb-sde:`cat version.txt` --push `pwd`"
           }
         }
+      }
+
+      stage('deploy') {
+          steps {
+            container('tools') {
+                withKubeConfig([credentialsId: "k8s-credentials", serverUrl: "rancher.rwcloud.org"]) {
+                    sh 'helm -n $NAMESPACE upgrade -i eve-sde-db helm/eve-sdb-db --set image.tag=`cat version.txt` --wait'
+                }
+            }
+          }
       }
   }
 }
