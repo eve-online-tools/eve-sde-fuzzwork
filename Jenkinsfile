@@ -13,6 +13,12 @@ spec:
     image: jenkins/inbound-agent:4.10-3-jdk11
     imagePullPolicy: IfNotPresent
     tty: true
+  - name: tools
+    image: ghcr.io/eve-online-tools/jenkins-tools:0.2
+    imagePullPolicy: IfNotPresent
+    command:
+    - cat
+    tty: true
   - name: dind
     image: ghcr.io/eve-online-tools/dind-buildx:0.3
     imagePullPolicy: IfNotPresent
