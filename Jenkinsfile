@@ -80,7 +80,7 @@ spec:
       stage('deploy') {
           steps {
             container('tools') {
-                withKubeConfig([credentialsId: "k8s-credentials", serverUrl: "https://kubernetes.default"]) {
+                withKubeConfig([credentialsId: "k8s-credentials", serverUrl: "https://rancher.rwcloud.org/k8s/clusters/local"]) {
                     sh 'cat .kube*'
                     sh 'kubectl -n $NAMESPACE get pods'
                     //sh 'helm -n $NAMESPACE upgrade -i eve-sde-db helm/eve-sdb-db --set image.tag=`cat version.txt` --wait'
