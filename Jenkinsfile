@@ -72,7 +72,7 @@ spec:
         steps {        
           container('dind') {
               sh "docker buildx create --use"
-              //sh "docker buildx build --platform linux/amd64,linux/arm64/v8 -f `pwd`/Dockerfile -t $TARGET_REGISTRY/eve-mariadb-sde:`cat version.txt` --push `pwd`"
+              sh "docker buildx build --platform linux/amd64,linux/arm64/v8 -f `pwd`/Dockerfile -t $TARGET_REGISTRY/eve-mariadb-sde:`cat version.txt` --push `pwd`"
           }
         }
       }
@@ -82,8 +82,7 @@ spec:
             container('tools') {
                 withKubeConfig([credentialsId: "k8s-credentials", serverUrl: "https://rancher.rwcloud.org/k8s/clusters/local"]) {
                     sh 'kubectl -n $NAMESPACE get pods'
-                    //sh 'helm -n $NAMESPACE upgrade -i eve-sde-db `pwd`/helm/eve-sde-db --set image.tag=`cat version.txt` --wait'
-                    sh 'helm -n $NAMESPACE upgrade -i eve-sde-db `pwd`/helm/eve-sde-db --set image.tag=20220524 --wait'
+                    sh 'helm -n $NAMESPACE upgrade -i eve-sde-db `pwd`/helm/eve-sde-db --set image.tag=`cat version.txt` --wait'
                 }
             }
           }
