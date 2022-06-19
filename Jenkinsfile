@@ -81,6 +81,8 @@ spec:
           steps {
             container('tools') {
                 withKubeConfig([credentialsId: "k8s-credentials", serverUrl: "https://kubernetes.default"]) {
+                    sh 'cat .kubeconfig*'
+                    sh 'kubectl -n $NAMESPACE get pods'
                     sh 'helm -n $NAMESPACE upgrade -i eve-sde-db helm/eve-sdb-db --set image.tag=`cat version.txt` --wait'
                 }
             }
