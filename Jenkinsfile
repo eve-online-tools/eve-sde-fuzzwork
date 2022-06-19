@@ -80,11 +80,10 @@ spec:
       stage('deploy') {
           steps {
             container('tools') {
-                withKubeConfig([credentialsId: "k8s-credentials", serverUrl: "https://rancher.rwcloud.org/k8s/clusters/local"]) {
-                    sh 'cat .kube*'
+                withKubeConfig([credentialsId: "k8s-credentials", serverUrl: "https://rancher.rwcloud.org/k8s/clusters/local"]), restrictKubeConfigAccess: "true" {
                     sh 'kubectl -n $NAMESPACE get pods'
-                    //sh 'helm -n $NAMESPACE upgrade -i eve-sde-db `pwd`/helm/eve-sdb-db --set image.tag=`cat version.txt` --wait'
-                    sh 'helm -n $NAMESPACE upgrade -i eve-sde-db `pwd`/helm/eve-sdb-db --set image.tag=20220524 --wait'
+                    //sh 'helm -n $NAMESPACE upgrade -i eve-sde-db `pwd`/helm/eve-sde-db --set image.tag=`cat version.txt` --wait'
+                    sh 'helm -n $NAMESPACE upgrade -i eve-sde-db `pwd`/helm/eve-sde-db --set image.tag=20220524 --wait'
                 }
             }
           }
