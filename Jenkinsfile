@@ -32,8 +32,13 @@ pipeline {
       stage('deploy') {
           steps {
             container('tools') {
-                sh 'kubectl -n $NAMESPACE get pods'
-                sh 'helm -n $NAMESPACE upgrade -i eve-sde-db `pwd`/helm/eve-sde-db --set image.tag=`cat version.txt` --wait'
+
+                withCredentials([string(credentialsId: 'k8s-server-url', variable: 'SERVER_URL')]) {
+                    withKubeConfig([credentialsId: "k8s-credentials", serverUrl: "$SERVER_URL"]) {
+                        sh 'kubectl -n $NAMESPACE get pods'
+                        sh 'helm -n $NAMESPACE upgrade -i eve-sde-db `pwd`/helm/eve-sde-db --set image.tag=`cat version.txt` --wait'
+                    }
+                }
             }
           }
       }
