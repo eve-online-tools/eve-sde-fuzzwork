@@ -34,7 +34,7 @@ pipeline {
             container('tools') {
 
                 withCredentials([string(credentialsId: 'k8s-server-url', variable: 'SERVER_URL')]) {
-                    withKubeConfig([credentialsId: "k8s-credentials", serverUrl: '$SERVER_URL']) {
+                    withKubeConfig([credentialsId: "k8s-credentials", serverUrl: "https://10.0.0.100:6443"]) {
                         sh 'kubectl --v=5 -n $NAMESPACE get pods'
                         sh 'helm -n $NAMESPACE upgrade -i eve-sde-db `pwd`/helm/eve-sde-db --set image.tag=`cat version.txt` --wait'
                     }
