@@ -14,11 +14,13 @@ spec:
       command:
         - cat
       tty: true
+      serviceAccount: jenkins
     - name: dind
       image: ghcr.io/eve-online-tools/dind-buildx:0.3
       imagePullPolicy: IfNotPresent
       securityContext:
         privileged: true
+      serviceAccount: jenkins
       tty: true
       readinessProbe:
         exec:
