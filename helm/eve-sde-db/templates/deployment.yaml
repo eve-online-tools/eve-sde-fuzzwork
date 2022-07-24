@@ -53,6 +53,11 @@ spec:
                 - |
                   password_aux="${MARIADB_ROOT_PASSWORD:-}"
                   mysqladmin status -uroot -p"${password_aux}"
+          startupProbe:
+            tcpSocket:
+              port: 3306
+            failureThreshold: 60
+            periodSeconds: 5
 #          livenessProbe:
 #            httpGet:
 #              path: /
